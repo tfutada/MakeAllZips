@@ -40,6 +40,7 @@ import SwiftShell // a lib to run external shell commands.
                 " ; mvn package; "
         }
         
+        // TODO: Unfortunately, outputs are interleaved.
         run(command!) |>> standardoutput // invokes the external shell.
     }
 
@@ -47,25 +48,27 @@ import SwiftShell // a lib to run external shell commands.
 // Main
 //
 
+// Semaphore
+let semaphore: dispatch_semaphore_t = dispatch_semaphore_create(0)
+
 for r in repos
 {
     let queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)
     // fork a thread to process each repo.
     dispatch_async(queue) {
         worker(r)
+        dispatch_semaphore_signal(semaphore) // increment the semaphore
     }
 }
 
-// Check if the threads, shells, are running.
+// RendezVous
+for i in 0 ..< repos.count
+{
+    // barrier
+    dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER)
+}
 
-//if run("ps") |> run("grep mvn").read().isEmpty()
-//{
-//    wait()
-// else
-//    exit()
-//}
-
-
+println("=== Done! ===")
 
 
 
