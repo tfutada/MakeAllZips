@@ -62,7 +62,7 @@ for r in repos
 }
 
 // RendezVous
-for i in 0 ..< repos.count
+for _ in 0 ..< repos.count
 {
     // barrier
     dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER)
