@@ -2,7 +2,10 @@
 Create Zip files from Git repos automatically.
 
 Install SwiftShell locally on your Mac OS X (Yosemite)
-https://github.com/kareman/SwiftShell (See INSTALL section as to how to install it.)
+
+https://github.com/kareman/SwiftShell
+
+(See INSTALL section as to how to install it.)
 
 Set PATH to it. (I'm a ZSH user.)
 
